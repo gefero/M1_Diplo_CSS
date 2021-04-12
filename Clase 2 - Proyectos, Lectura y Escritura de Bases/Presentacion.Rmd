@@ -1,0 +1,179 @@
+---
+title: "Flujo de trabajo en R"
+subtitle: "Ciencias Sociales Computacionales"
+output:
+  xaringan::moon_reader:
+    self_contained: false
+    css: [default, metropolis, metropolis-fonts]
+    lib_dir: libs
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+---
+
+
+```{r include=FALSE}
+options(tibble.width = NULL)
+```
+
+
+```{r xaringanExtra-clipboard, eval=FALSE, include=FALSE}
+htmltools::tagList(
+ xaringanExtra::use_clipboard(
+   button_text = "<i class=\"fa fa-clipboard\"></i>",
+   success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+ ),
+ rmarkdown::html_dependency_font_awesome()
+)
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+# These are the defaults
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE,         #<<
+  mute_unhighlighted_code = TRUE  
+)
+```
+
+```{r xaringanExtra-scribble, echo=FALSE}
+xaringanExtra::use_scribble()
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+
+xaringanExtra::style_panelset_tabs(
+  active_foreground = "#0051BA",
+  hover_foreground = "#d22",
+  font_family = "Roboto"
+)
+```
+
+<style type="text/css">
+.remark-slide-content {
+    font-size: 25px;
+    padding: 1em 1em 1em 1em;
+}
+</style>
+
+
+
+```{r, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+knitr::opts_chunk$set(fig.width = 10, message = FALSE, warning = FALSE, comment = "", cache = F)
+
+
+library(flipbookr)
+library(tidyverse)
+library(xaringanthemer)
+library(xaringan)
+library(gt)
+library(icons)
+```
+
+
+# Hoja de ruta
+
+```{r include=FALSE}
+funcion <- data.frame(funcion = c("Valores", "Objetos", 
+                                  "Vectores (variables)",  "Data frames (bases de datos"))
+
+funcion %>% 
+  gt() %>% 
+  cols_label(funcion = md("**Función**"))
+```
+
+<br>
+
+## ✔️ Paquetes complementarios
+
+## ✔️ Proyectos en R
+
+## ✔️ Lectura y escritura de archivos
+
+
+
+
+
+
+---
+
+class: inverse, center, middle
+
+# Paquetes
+
+<html>
+  <div style='float:left'></div>
+  <hr color='#EB811B' size=1px width=1125px>
+</html>
+
+---
+
+# Paquetes  
+.pull-left[
+¿Qué son?, ¿para qué nos sirven?   
+
+```{r echo=FALSE, eval=TRUE}
+knitr::include_graphics("img/travolta.gif")
+```
+]
+
+
+--
+.pull-right[
+✔️ Nuevas funciones, bases de datos y objetos de R en general, complementarios a lo contenido en R Base.
+
+✔️ Aportes de Universidades, investigadores, usuaries y empresas, para expandir las capacidades del lenguaje R y facilitar su uso.  
+]   
+
+---
+
+#Paquetes    
+¿Cómo se usan?   
+
+- Podemos descargarlos e instalarlos con el siguiente comando: 
+
+```r
+install.packages("nombre_del_paquete") 
+```
+
+- Sólo es necesario instalar el paquete una vez por computadora. Se descargarán de la pagina de [CRAN](https://cran.r-project.org) los archivos correspondientes, ubicándose en el directorio donde hayamos instalado el programa
+
+
+- Una vez instalado el paquete, cada vez que abramos una nueva sesión de R y querramos utilizar el mismo debemos **cargarlo al ambiente de trabajo** mediante la siguiente función:    
+```r
+library(nombre_del_paquete)
+```
+
+
+---
+#Directorios de trabajo
+¿Cómo garantizar que la ruta para importar bases de datos al ambiente de R y para exportar resultados pueda funcionar si muevo mis carpetas o las comparto?
+
+.left-column[
+```{r echo=FALSE, eval=TRUE}
+knitr::include_graphics("img/meme si y no.jpg")
+```
+]
+
+--
+.right-column[
+```
+"C:\Users\Guido\Trabajo\Diplomatura UNSAM\"
+"C:\Investigación\"
+"Investigación\"
+```
+```{r echo=TRUE, eval=FALSE}
+setwd("C:\Users\Guido\Trabajo\Diplomatura UNSAM\")
+```
+<br>
+```{r echo=FALSE, eval=TRUE}
+knitr::include_graphics("img/Rproject.png")
+```
+
+]   
+

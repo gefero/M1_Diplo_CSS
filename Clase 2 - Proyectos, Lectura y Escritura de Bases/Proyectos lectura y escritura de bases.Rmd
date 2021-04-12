@@ -1,0 +1,236 @@
+---
+title:  Clase 2 - Diplomatura UNSAM
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introducción
+
+La clase en cuestión estará apuntada a delimitar criterios deseables a la hora de organizar el flujo de trabajo con datos en R. En primera instancia, se abordará la utilización de proyectos, en tanto herramienta óptima para facilitar la importación y exportación de archivos, y para facilitar en intercambio de código en trabajos colaborativos. Una vez abordada esta herramienta, procederemos a estudiar las funciones para cargar paquetes complentarios al RBase y luego las distintas herramientas y funciones para la importación bases de datos. Finalmente haremos un barrido por las principales funciones para una mirada exploratoria del contenido de una base, y exportaremos archivos a nuestras PCs.
+
+# Utilización de paquetes
+
+Hasta aquí hemos visto múltiples funciones que están contenidas dentro del lenguaje básico de R. Ahora bien, al tratarse de un software libre, distintos usuarios de R contribuyen sistemáticamente a expandir este lenguaje mediante la creación y actualización de **paquetes** complementarios. Lógicamente, los mismos no están incluidos en la instalación inicial del programa, pero podemos descargarlos e instalarlos con el siguiente comando:
+
+    install.packages("nombre_del_paquete") 
+
+Al ejecutar el comando se descargarán de la pagina de [CRAN](www.cran.r-project.org) los archivos correspondientes al paquete hacia el directorio en donde hayamos instalado el programa. Típicamente los archivos se encontrarán en \*\*C:\Program Files\R\R-3.5.0\library\*\*, siempre con la versión del programa correspondiente.
+
+Los paquetes sólo se instalan una vez en la computadora (si cambias de computadora, tenés que volver a instalarlo). Una vez instalado el paquete, cada vez que abramos una nueva sesión de R y querramos utilizar el mismo debemos **cargarlo al ambiente de trabajo** mediante la siguiente función:
+
+    library(nombre_del_paquete)
+
+Nótese que al cargar/activar el paquete no son necesarias las comillas.
+
+Es recomendable que nuestros scripts inicien con la importación de los mismos al ambiente de trabajo. Importamos aquí los que utilizaremos en esta clase
+
+```{r message=FALSE, warning=FALSE}
+#install.packages("openxlsx") # Una sóla vez por PC
+library(openxlsx)
+library(tidyverse)
+```
+
+# Directorio de trabajo
+
+A la hora de trabajar con archivos que tenemos guardados (o queremos guardar en nuestra computadora, es importante tener en cuenta que R siempre esta operando con un directorio de trabajo específico. Este directorio será el punto de partida para importar archivos al ambiente de R, o exportar objetos del ámbiente y guardarlos como archivos nuevos en nuestra PC
+
+Con la función `getwd()` podemos visualizar la ruta que el programa tiene seteada como directorio de trabajo:
+
+```{r}
+getwd()
+```
+
+Supongamos que quisieramos setear el directorio de trabajo en nuestra carpeta de "Fuentes", con el fin de facilitar la importación de bases de datos. La función setwd() nos permite realizar esto.
+
+```{r message=FALSE, warning=FALSE}
+setwd("C:/Users/usuario/Desktop/Guido/Trabajo/Repositorios de R/Cursos de R/Diplomatura UNSAM/Modulo 1/Fuentes")
+getwd()
+```
+
+> ¿ Que problema tiene setear la ruta de trabajo de esta manera?
+
+Cuando especifico de esta forma un directorio de trabajo en mi computadora para importar y exportar archivos:
+
+-   Si le comparto código y archivos a otra persona no podrá abrirlos.\
+-   Si cambio de lugar la carpeta que contiene en mi computadora, tampoco podré abrir los archivos.
+
+Rstudio tiene una herramienta muy útil de trabajo que son los **proyectos**.
+
+![](img/Rproject.png)
+
+Los proyectos permiten mantener un ambiente de trabajo delimitado por cada uno de nuestros trabajos. Es decir:
+
+-   El directorio de trabajo siempre toma como punto inicial la carpeta donde esta ubicada el archivo .Rproj
+-   El Environment es específico de nuestro proyecto. No se nos mezclará con resultados de código que podamos correr en otros proyecos.
+
+Un proyecto no es un sólo script, sino toda una carpeta de trabajo.
+
+Para crearlo, vamos al logo de nuevo projecto (Arriba a la derecha de la panatalla), y elegimos la carpeta de trabajo.
+
+![](img/nuevo%20proyecto.png){width="410"}![](img/nuevo%20proyecto2.png){width="410"}\
+
+> Práctica: Abran RStudio en sus computadoras y creen un nuevo proyecto en un nuevo directorio de sus computadoras. Luego, abran un script, importen las librerías "openxlsx" y "tidyverse" al ambiente de trabajo. Guarden el script en la misma carpeta donde crearon el proyecto. Ejecuten la función list.files().
+
+# Lectura de archivos
+
+A la hora de la importación de archivos, en R contamos con **distintas funciones según que tipo de extensión (.csv,.txt, etc.) tenga el archivo a importar**.
+
+En RBase tenemos un cojunto de funciones que por lo general tienen nombres como `read.extension`
+
+En otros paquetes complementarios, para nombrar a las funciones que importan archivos el `-` remplaza al `.` (es decir `read_extension`).
+
+A su vez, las funciones del lenguaje RBase sólo cubren ciertos tipos de extensiones. Podremos acudir a paquetes complementarios para importar archivos con extensiones de otros sofwtare (.dta,.sav), así como también a funciones con parametros útiles para importar archivos de extensión más tradicional.
+
+**Sugerencia**: Para importar datos utilizar funciones de paquetes complementarios al RBase, están más desarrolladas para lidiar con distintos inconvenientes en la importación de archivos. [^1]
+
+[^1]: Para más referencias: Ver sección "11. Importación de datos" del libro [R for data science](https://es.r4ds.hadley.nz/importaci%C3%B3n-de-datos.html).
+
+## Archivos de texto plano
+
+Para archivos de texto plano, el paquete "readr" (que forma parte de tidyverse), tiene numerosas funciones que se adaptan a las diferencias en los archivos de tipo *.tsv* *.csv* o *.txt*. Las diferencias entre cada una de ellas está en los parámetros que poseen para mejorar la importación.
+
+![](img/read_csv.png)
+
+¿Qué es lo que indican algunos de los parámetros que tenemos aquí?
+
+Es importante tener en cuenta que una base de datos que proviene de archivos *.tsv*, *.txt*, o *.csv* puede presentar diferencias en cuanto a:
+
+-   encabezado (¿Tiene o no una primera fila con los nombes de las variables?)
+-   delimitador (¿Cómo están separadas las variables en el archivo?: Ej: `,`, `;`, tab)
+-   separador decimal (¿Cómo fiugran los números en la base? Ej: ¿10.000, 10000 o 10,000)
+-   quotes: ¿Como están indicados los valores de las variables de texto en la base?, ¿Aparecen entre comillas?
+
+Por lo general muchas funciones tienen estos parámetros ya seteados, o tienen uno de ellos por default. En la imagen de arriba, el valor por *default* del parametro `col_names` es `TRUE`. Ello indica que, salvo indicación de los contrario, la función `read_csv` interpretará a la primer fila de texto como los nombres de las variables y no como un primer registo en la base de datos. Por su parte, al ser una función específica para archivos *csv* (comma separated values), esta función sirve para leer archivos delimitados por comas.
+
+Veamos un ejemplo de importación de una de las bases que tenemos en nuestra carpeta. Acorde a la recomendación, utilizaremos la función `read_csv`.
+
+```{r}
+base.vacunas <- read_csv("../Fuentes/Bases adicionales/Covid19VacunasAgrupadas.csv")
+```
+
+Esta función tiene entre sus múltiples ventajas, que muestra una barra de progreso cuando importa los datos, y que nos aclara que clase identificó a cada variable del archivo. Por otro lado, lidia mejor que la de RBase con la codificación de los caracteres (o encoding).
+
+Aquí les muestro algunos registros de la base en cuestión.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+set.seed(131)
+sample_n(base.vacunas,size = 10)
+```
+
+**Sugerencia:** para trabajar con bases muy pesadas (el caso de la base que se encuentra en la carpeta "Fuentes"), Explorar los parámetros que permiten levantar una cantidad límitada de filas. Para lo que sigue aquí, tomaremos solo los primeros 10.000 casos de la base
+
+```{r}
+base.casos.covid <- read_csv("../Fuentes/Covid19Casos.csv",
+                             n_max = 10000)
+```
+
+## Otras extensiones
+
+### haven
+
+El paquete *haven* es uno de los más útiles para importar con extensiones de otros sofwtare (.dta,.sav). Está diseñado con la misma lógica que las funciones de importación vistas recién. En principio no lo veremos, pero les puede resultar útil si están migrando de un software a R.
+
+### openxlsx
+
+Para importar y exportar archivos de extensión ".xlsx" o ".xls" utiizaremos el paquete *openxlsx* en este módulo (aunque, una vez más, hay infinidad de variantes).
+
+> Práctica: Copien la carpeta "Bases adicionales" adentro de la carpeta del proyecto que crearon previamente. Importen correctamente a su ambiente de trabajo el archivo de extensión .csv. Luego, inspeccionen los parámetros de la función read.xlsx para importar como dos objetos separados las bases que se encuentran en ambas pestañas del excel. Pista: Pueden inspeccionar los parámetros con la siguiente función.
+
+```{r eval=FALSE, include=TRUE}
+?read.xlsx
+```
+
+### RDS y Rdata
+
+A la hora de importar información a nuestro ambiente ambiente de trabajo (como por ejemplo cargar una base de datos almacenada en el disco rígido de nuestra pc), o exportar información (guardar los resultados de un procesamiento en el disco) **R** cuenta con dos tipos de archivos de extensión propia: *.RDS* y *.RData*. Trabajar con extensiones propias a R reduce los tiempos de procesamiento a la hora de la importación o exportación de archivos.
+
+Para importar archivos *.RDATA* necesitamos la función `load`, y para importar archivos *.RDS* la función `readRDS`.\
+Los archivos *.RData* pueden contener varios objetos al mismo tiempo, por ello, a la hora de importarlos no es necesario realizar una operación de asignación, ya que los objetos se cargarán en nuestro ambiente con el nombre que contenían cuando fueron guardados.
+
+Los archivos *.RDS* sólo contienen un objeto de R, por ello, a la hora de importarlos si no los asignamos mediante un `<-` simplemente se ejecutarán en la consola sin quedar guardados en nuestro ambiente
+
+Para exportar archivos *.RDATA* necesitamos la función `save` y para importar archivos *.RDS* la función `saveRDS`. En caso de querer exportar más de un objeto, en un archivo *.RDATA* en el parametro `list` debemos especificar un vector con los nombres de los objetos a guardar.
+
+```{r}
+#leo base en formato RDS.
+base_tweets <- readRDS(file = "../Fuentes/Bases adicionales/vacuna.tweets.RDS")
+
+#si quiero guardar base en formato RDS.
+#saveRDS(object = base_tweets,file = "../base_nueva.RDS" )
+```
+
+# Pispeando la base
+
+Antes de comenzar a procesar por primera vez una base de datos, siempre es útiles recurrir a ciertos comandos que nos permiten tener mayor noción sobre el tipo de información que vamos a trabajar.
+
+## summary
+
+Resume la información de cada una de las variables de la base de datos, mostrando distintos momentos de la distribución para variables *numéricas* o *fechas*, y un conteo de casos para variables de tipo *character*.
+
+```{r cars}
+summary(base.casos.covid)
+```
+
+**¿Algo les llama la atención del resumen de las variables de esta base?**
+
+## glimpse
+
+La función **glimpse** nos muestra en formato más amigable un listado de las variables de la base, indicando la clase de variable en cuestión, y muestra los primeros valores de cada una de ellas.
+
+```{r}
+glimpse(base.casos.covid)
+```
+
+## unique
+
+Permite ver los únicos valores que toma cierta variable en mi base de datos. Por ejemplo, ¿Qué valores puedo encontrar en la variable *clasificacion_resumen*?
+
+```{r}
+unique(base.casos.covid$clasificacion_resumen)
+```
+
+## sample_n
+
+Esta función está dentro del paquete tidyverse. Nos permite seleccionar una muestra al azar de *n* casos de nuestra base de datos. Puede ser útil para una primera mirada de la base que trascienda a los primeros casos, o bien para procedimienos de muestreo.
+
+```{r}
+sample_n(tbl = base.casos.covid,size = 10)
+```
+
+## table
+
+Esta función puede utilizarse para hacer tabulados univariados o bivariados.
+
+```{r}
+table(base.casos.covid$clasificacion_resumen,
+      base.casos.covid$sexo) 
+```
+
+# Escritura de archivos
+
+Por lo general, cada paquete que presenta funciones para importar bases de datos en archivos de distina extensión, tienen como complemento una función para exportar un objeto de tipo *dataframe* con la misma extensión
+
+Supongamos que el interés nuestro por la base era simplemente calcular el tabulado anterior, y queremos exportarlo a un excel para armar un cuadro para un informe.
+
+La función `dir.create()` nos permite crear una carpeta en el disco de nuestra computadora. Como estoy utilizando un proyecto, el punto de partida es la ubicación del mismo en mi PC.
+
+```{r}
+dir.create("Resultados/")
+```
+
+Ahora sí, voy a guardar los datos del tabulado en un objeto, y luego uso el mismo para exportar su contenido.
+
+```{r}
+data <- table(
+  base.casos.covid$clasificacion_resumen,
+  base.casos.covid$sexo) 
+
+write.xlsx(x = data,
+           file = "Resultados/tabulado.xlsx")
+```

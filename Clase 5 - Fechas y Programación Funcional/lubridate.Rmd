@@ -1,0 +1,158 @@
+---
+title:  Clase 5 - Diplomatura UNSAM
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+subtitle: 
+---
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+```
+
+## Cargamos la base
+
+```{r message=FALSE, warning=FALSE}
+base.covid <- read_csv('../Fuentes/Covid19Casos.csv',
+                       n_max = 100000)
+```
+
+
+Veamos que rango de tiempo abarcan nuestros casos (recuerden que levantamos sólo 100000 registros)
+```{r}
+range(base.covid$fecha_apertura)
+```
+Qué tipo de variable es **fecha_apertura**??
+```{r}
+class(base.covid$fecha_apertura)
+```
+Es un tipo de variable de tiempo. Tenemos tres tipos de variables de tiempo principales en R:   
+- Date: (Sólo Año, Mes y Día).   
+- Time: (Un horario, sin especificar de que día es)  
+- Date-time: (Año, Mes, Día y horario)
+
+##Lubridate     
+###Extraccion de informacion de la fecha      
+
+El paquete `lubridate` es ideal para trabajar con fechas en R. En primera instancia nos permite extraer muy intuitivamente información cuando contamos con una variable construida como fecha.   
+
+```{r,warning=FALSE}
+base.covid.fechas<- base.covid %>% 
+  mutate(anio = year(fecha_apertura),
+         semestre  = semester(fecha_apertura),
+         trimestre = quarter(fecha_apertura),
+         mes       = month(fecha_apertura),
+         semana       = week(fecha_apertura),
+         dia.numero= wday(fecha_apertura),
+         dia.nombre= wday(fecha_apertura, label = TRUE))
+         # hora = hour(fecha_apertura),
+         # minutos = minute(fecha_apertura))
+
+
+```
+Veamos como quedan estas nuevas columnas.
+```{r echo=FALSE}
+base.covid.fechas %>% 
+  select(fecha_apertura,(ncol(.)-6):ncol(.))
+```
+
+###Redondeos
+```{r}
+
+```
+
+
+###Operaciones con fechas                 
+
+El paquete tiene una serie de funciones para operar realizando transformaciones sobre las fechas. Tomemos una fecha del primer registro para operar sobre ella: 
+```{r}
+fecha <- base.covid$fecha_inicio_sintomas[3]
+fecha
+```
+
+```{r}
+fecha+ days(2) # Le sumo dos días a la fecha
+fecha+ days(2) - hours(3)# Le sumo dos días a la fecha y le resto tres horas
+fecha + days(2) + minutes(15) # Le sumo dos días y le 15 minutos
+```
+Importante notar que:         
+
+- Las funciones para **extraer** informacion de las fechas llevan el singular (ej: day,month,hour)
+- Las funciones para **transformar** las fechas llevan el **plural** (ej: days, months,hours).   
+
+> Practica: Filtrar una semana en particular, o un conjunto de semanas en la base de datos. ¿Qué dia de la semana se abren mas casos?    
+
+Otra operación  frecuente para las variables de fecha es operar tomando distancias entre ellas. Por ejemplo, ¿cuanto tiempo pasa entre el inicio de los sintomas y la apertura del caso en cada paciente?
+```{r}
+base.covid.fechas <-  base.covid.fechas %>% 
+mutate(tiempo.diagnostico = fecha_diagnostico - fecha_inicio_sintomas)  
+
+class(base.covid.fechas$tiempo.diagnostico)
+```
+
+Una resta de fechas provoca en este caso un objeto "difftime". Podemos ver ahora por ejemplo cuánto es el promedio de tiempo por provincia 
+```{r message=FALSE, warning=FALSE}
+base.covid.fechas %>% 
+  group_by(residencia_provincia_nombre) %>% 
+  summarise(tiempo.promedio = mean(tiempo.diagnostico,na.rm = T)) %>% 
+  arrange(tiempo.promedio)
+```
+
+
+###Crear Fechas        
+Suele ocurrir que uno trabaja importando bases de datos donde las variables temporales no traen con el formato necesario para trabajar con fechas en R, o bien el programa no puede codificarlas directametne como fechas. El paquete `lubridate` también tiene una serie de funciones que permiten lidiar con ello.    
+
+Veamos algunos ejemplos    
+```{r}
+ejemplo0 <- "20/05/2020 18:20:40"
+ejemplo1 <- "20/05/2020"
+ejemplo2 <- "20/05/2020 18:20"
+class(ejemplo0)
+
+```
+Hay un set de funciones que siguen la siguiente lógica:          
+Mediante la combinacion de los caracteres **dmy_hms** podemos convertir un string a una fecha, indicando que el formato en que nuestro string tiene la codificada la fecha. En el ejemplo0, es día(d), mes(m), año(y), hora(h), minuto(m) y segundo(s)
+
+ 
+```{r}
+ejemplo0_formateado <- dmy_hms(ejemplo0)
+ejemplo0_formateado
+```
+Que tipo de objeto es ahora *ejemplo0_formateado*?
+```{r}
+class(ejemplo0_formateado)
+```
+Para resolver los otros ejemplos, seguimos la misma lógica. Por ejemplo en el caso 1, solo tenemos day, month, year. Para ello aplicaremos la función **dmy**
+
+```{r}
+ejemplo1_formateado <- dmy(ejemplo1)
+ejemplo1_formateado
+```
+Ejemplo 2:
+```{r}
+ejemplo2_formateado <- dmy_hm(ejemplo2)
+ejemplo2_formateado
+```
+
+Para formatos un poco menos estandarizados, la función parse_date_time nos puede ser útil para transforar una variable.
+```{r}
+dato_importado <- c("Apr-20","May-20","Jun-20") 
+parse_date_time(dato_importado, orders = 'my')
+
+```
+
+```{r}
+hs <- runif(n = nrow(base.covid),min = 0,max = 24)
+min <- runif(n = nrow(base.covid),min = 0,max = 60)
+seg <- runif(n = nrow(base.covid),min = 0,max = 60)
+
+base.covid.fechas <- base.covid.fechas %>% 
+  mutate(horas    = round(hs),
+         minutos  = round(min),
+         segundos = round(hs))
+
+```
+
+
