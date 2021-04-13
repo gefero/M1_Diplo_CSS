@@ -52,7 +52,6 @@ class: center, middle, inverse, title-slide
 # Hoja de ruta
 
 
-
 &lt;br&gt;
 
 ## ✔️ Paquetes complementarios
@@ -115,29 +114,44 @@ library(nombre_del_paquete)
 
 
 ---
-#Directorios de trabajo
+#Directorios de trabajo - Proyectos
 ¿Cómo garantizar que la ruta para importar bases de datos al ambiente de R y para exportar resultados pueda funcionar si muevo mis carpetas o las comparto?
 
 .left-column[
 ![](img/meme si y no.jpg)&lt;!-- --&gt;
 ]
 
---
+
 .right-column[
-```
-"C:\Users\Guido\Trabajo\Diplomatura UNSAM\"
-"C:\Investigación\"
-"Investigación\"
-```
+
 
 ```r
-setwd("C:\Users\Guido\Trabajo\Diplomatura UNSAM\")
+read.csv("C:\Users\Guido\Investigación\Bases_COvid\Base Covid19.csv")
 ```
-&lt;br&gt;
+
+
+```r
+dir.create("C:\Users\Guido\Investigación\Resultados")
+```
+
+
+```r
+setwd("C:\Users\Guido\Cursos\Diplomatura UNSAM\")
+```
+
 &lt;img src="img/Rproject.png" width="213" /&gt;
 
 ]   
+---
+#Directorios de trabajo - Proyectos
+.pull-left[Rstudio tiene una herramienta muy útil de trabajo, que son los  **proyectos**. Un proyecto es un archivo que identifica toda una carpeta de trabajo. Para crearlo, vamos al logo de nuevo proyecto y elegimos la carpeta de trabajo. Cuando trabajemos con proyectos: 
 
+-   El directorio de trabajo siempre toma como punto inicial la carpeta donde esta ubicada el archivo .Rproj. 
+-   El Environment es específico de nuestro proyecto. No se nos mezclará con resultados de código que podamos correr en otros proyectos.
+]
+.pull-right[
+&lt;img src="img/nuevo_proyecto.png" width="839" /&gt;&lt;img src="img/nuevo_proyecto2.png" width="640" /&gt;
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

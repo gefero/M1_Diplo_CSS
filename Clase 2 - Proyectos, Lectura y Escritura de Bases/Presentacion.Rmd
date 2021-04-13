@@ -78,14 +78,6 @@ library(icons)
 
 # Hoja de ruta
 
-```{r include=FALSE}
-funcion <- data.frame(funcion = c("Valores", "Objetos", 
-                                  "Vectores (variables)",  "Data frames (bases de datos"))
-
-funcion %>% 
-  gt() %>% 
-  cols_label(funcion = md("**Función**"))
-```
 
 <br>
 
@@ -151,7 +143,7 @@ library(nombre_del_paquete)
 
 
 ---
-#Directorios de trabajo
+#Directorios de trabajo - Proyectos
 ¿Cómo garantizar que la ruta para importar bases de datos al ambiente de R y para exportar resultados pueda funcionar si muevo mis carpetas o las comparto?
 
 .left-column[
@@ -160,20 +152,37 @@ knitr::include_graphics("img/meme si y no.jpg")
 ```
 ]
 
---
+
 .right-column[
-```
-"C:\Users\Guido\Trabajo\Diplomatura UNSAM\"
-"C:\Investigación\"
-"Investigación\"
-```
+
 ```{r echo=TRUE, eval=FALSE}
-setwd("C:\Users\Guido\Trabajo\Diplomatura UNSAM\")
+read.csv("C:\Users\Guido\Investigación\Bases_COvid\Base Covid19.csv")
 ```
-<br>
+
+```{r echo=TRUE, eval=FALSE}
+dir.create("C:\Users\Guido\Investigación\Resultados")
+```
+
+```{r echo=TRUE, eval=FALSE}
+setwd("C:\Users\Guido\Cursos\Diplomatura UNSAM\")
+```
+
 ```{r echo=FALSE, eval=TRUE}
 knitr::include_graphics("img/Rproject.png")
 ```
 
 ]   
+---
+#Directorios de trabajo - Proyectos
+.pull-left[Rstudio tiene una herramienta muy útil de trabajo, que son los  **proyectos**. Un proyecto es un archivo que identifica toda una carpeta de trabajo. Para crearlo, vamos al logo de nuevo proyecto y elegimos la carpeta de trabajo. Cuando trabajemos con proyectos: 
 
+-   El directorio de trabajo siempre toma como punto inicial la carpeta donde esta ubicada el archivo .Rproj. 
+-   El Environment es específico de nuestro proyecto. No se nos mezclará con resultados de código que podamos correr en otros proyectos.
+]
+.pull-right[
+```{r echo=FALSE, warning=TRUE}
+knitr::include_graphics("img/nuevo_proyecto.png")
+knitr::include_graphics("img/nuevo_proyecto2.png")
+
+```
+]
