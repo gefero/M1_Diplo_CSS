@@ -87,10 +87,12 @@ library(icons)
 
 ## ✔️ Lectura y escritura de archivos
 
+<br>
 
+Algunas referencias que inspiran este material:    
 
-
-
+https://es.r4ds.hadley.nz/flujo-de-trabajo-proyectos.html
+https://slides.djnavarro.net/project-structure/   
 
 ---
 
@@ -141,6 +143,20 @@ install.packages("nombre_del_paquete")
 library(nombre_del_paquete)
 ```
 
+---
+
+class: inverse, center, middle
+
+# Directorios de trabajo
+
+<html>
+  <div style='float:left'></div>
+  <hr color='#EB811B' size=1px width=1125px>
+</html>
+
+---
+
+
 
 ---
 #Directorios de trabajo - Proyectos
@@ -152,9 +168,7 @@ knitr::include_graphics("img/meme si y no.jpg")
 ```
 ]
 
-
 .right-column[
-
 ```{r echo=TRUE, eval=FALSE}
 read.csv("C:\Users\Guido\Investigación\Bases_COvid\Base Covid19.csv")
 ```
@@ -167,11 +181,11 @@ dir.create("C:\Users\Guido\Investigación\Resultados")
 setwd("C:\Users\Guido\Cursos\Diplomatura UNSAM\")
 ```
 
-```{r echo=FALSE, eval=TRUE}
+```{r echo=FALSE, eval=TRUE,fig.align='left'}
 knitr::include_graphics("img/Rproject.png")
 ```
-
 ]   
+
 ---
 #Directorios de trabajo - Proyectos
 .pull-left[Rstudio tiene una herramienta muy útil de trabajo, que son los  **proyectos**. Un proyecto es un archivo que identifica toda una carpeta de trabajo. Para crearlo, vamos al logo de nuevo proyecto y elegimos la carpeta de trabajo. Cuando trabajemos con proyectos: 
@@ -182,7 +196,78 @@ knitr::include_graphics("img/Rproject.png")
 .pull-right[
 ```{r echo=FALSE, warning=TRUE}
 knitr::include_graphics("img/nuevo_proyecto.png")
+```
+```{r echo=FALSE, warning=TRUE}
 knitr::include_graphics("img/nuevo_proyecto2.png")
-
 ```
 ]
+
+---
+#Práctica  
+- Abran RStudio en sus computadoras y creen un nuevo proyecto en un nuevo directorio de sus computadoras.     
+
+- Abran un nuevo script, importen las librerías **"openxlsx"** y **"tidyverse"** al ambiente de trabajo. Instalenlas previamente en caso de no haberlo hecho aún. Recuerden: ```install.packages("nombre_del_paquete")```
+
+- Guarden el script dentro de la carpeta del proyecto que crearon.   
+
+- Ejecuten la función ```list.files()```
+
+---
+
+class: inverse, center, middle
+
+# Nombrando archivos
+
+<html>
+  <div style='float:left'></div>
+  <hr color='#EB811B' size=1px width=1125px>
+</html>
+
+---
+#Nombrando archivos (y/o carpetas)
+##Serie de recomendaciones para organizar la carpeta de trabajo de un proyecto 
+- Preferentemente utilizar minúsculas para nombrar nuestros archivos 
+
+✅  procesamiento.r  
+❌  Procesamiento.r   
+✅  analisis.r   
+
+- No utilizar espacios en blanco ni caracteres especiales (^.*?+|$) 
+
+✅  procesamiento_base_covid.r  
+❌  procesamiento base covid.r  
+❌  procesamiento.base.covid.r  
+✅  graficos_evolucion_covid.r  
+❌  gráficos_evolución_covid.r  
+
+---
+#Nombrando archivos (y/o carpetas)
+
+- Guardar consistencia en los caracteres utilizados y el orden de los componentes de los nombres
+
+✅  procesamiento_base_covid.r   
+✅  graficos_evolucion_covid.r  
+❌  covid-19-informe.rmd  
+
+- Si tengo muchos archivos en una carpeta: utilizar números para ordenar y palabras clave para documentos similares  
+
+✅  01_procesamiento_base_covid.r  
+✅  02_graficos_evolucion_covid.r  
+✅  03_graficos_provincias_covid.r  
+✅  04_informe_covid.r  
+❌  COVID_datos-VF20210414.r  
+
+
+---
+
+class: inverse, center, middle
+
+# Importación y Exportación de archivos
+
+<html>
+  <div style='float:left'></div>
+  <hr color='#EB811B' size=1px width=1125px>
+</html>
+
+---
+# Importación de bases de datos

@@ -60,10 +60,12 @@ class: center, middle, inverse, title-slide
 
 ## ✔️ Lectura y escritura de archivos
 
+&lt;br&gt;
 
+Algunas referencias que inspiran este material:    
 
-
-
+https://es.r4ds.hadley.nz/flujo-de-trabajo-proyectos.html
+https://slides.djnavarro.net/project-structure/   
 
 ---
 
@@ -112,6 +114,20 @@ install.packages("nombre_del_paquete")
 library(nombre_del_paquete)
 ```
 
+---
+
+class: inverse, center, middle
+
+# Directorios de trabajo
+
+&lt;html&gt;
+  &lt;div style='float:left'&gt;&lt;/div&gt;
+  &lt;hr color='#EB811B' size=1px width=1125px&gt;
+&lt;/html&gt;
+
+---
+
+
 
 ---
 #Directorios de trabajo - Proyectos
@@ -121,9 +137,7 @@ library(nombre_del_paquete)
 ![](img/meme si y no.jpg)&lt;!-- --&gt;
 ]
 
-
 .right-column[
-
 
 ```r
 read.csv("C:\Users\Guido\Investigación\Bases_COvid\Base Covid19.csv")
@@ -139,9 +153,9 @@ dir.create("C:\Users\Guido\Investigación\Resultados")
 setwd("C:\Users\Guido\Cursos\Diplomatura UNSAM\")
 ```
 
-&lt;img src="img/Rproject.png" width="213" /&gt;
-
+&lt;img src="img/Rproject.png" width="213" style="display: block; margin: auto auto auto 0;" /&gt;
 ]   
+
 ---
 #Directorios de trabajo - Proyectos
 .pull-left[Rstudio tiene una herramienta muy útil de trabajo, que son los  **proyectos**. Un proyecto es un archivo que identifica toda una carpeta de trabajo. Para crearlo, vamos al logo de nuevo proyecto y elegimos la carpeta de trabajo. Cuando trabajemos con proyectos: 
@@ -150,8 +164,79 @@ setwd("C:\Users\Guido\Cursos\Diplomatura UNSAM\")
 -   El Environment es específico de nuestro proyecto. No se nos mezclará con resultados de código que podamos correr en otros proyectos.
 ]
 .pull-right[
-&lt;img src="img/nuevo_proyecto.png" width="839" /&gt;&lt;img src="img/nuevo_proyecto2.png" width="640" /&gt;
+&lt;img src="img/nuevo_proyecto.png" width="839" /&gt;
+&lt;img src="img/nuevo_proyecto2.png" width="640" /&gt;
 ]
+
+---
+#Práctica  
+- Abran RStudio en sus computadoras y creen un nuevo proyecto en un nuevo directorio de sus computadoras.     
+
+- Abran un nuevo script, importen las librerías **"openxlsx"** y **"tidyverse"** al ambiente de trabajo. Instalenlas previamente en caso de no haberlo hecho aún. Recuerden: ```install.packages("nombre_del_paquete")```
+
+- Guarden el script dentro de la carpeta del proyecto que crearon.   
+
+- Ejecuten la función ```list.files()```
+
+---
+
+class: inverse, center, middle
+
+# Nombrando archivos
+
+&lt;html&gt;
+  &lt;div style='float:left'&gt;&lt;/div&gt;
+  &lt;hr color='#EB811B' size=1px width=1125px&gt;
+&lt;/html&gt;
+
+---
+#Nombrando archivos (y/o carpetas)
+##Serie de recomendaciones para organizar la carpeta de trabajo de un proyecto 
+- Preferentemente utilizar minúsculas para nombrar nuestros archivos 
+
+✅  procesamiento.r  
+❌  Procesamiento.r   
+✅  analisis.r   
+
+- No utilizar espacios en blanco ni caracteres especiales (^.*?+|$) 
+
+✅  procesamiento_base_covid.r  
+❌  procesamiento base covid.r  
+❌  procesamiento.base.covid.r  
+✅  graficos_evolucion_covid.r  
+❌  gráficos_evolución_covid.r  
+
+---
+#Nombrando archivos (y/o carpetas)
+
+- Guardar consistencia en los caracteres utilizados y el orden de los componentes de los nombres
+
+✅  procesamiento_base_covid.r   
+✅  graficos_evolucion_covid.r  
+❌  covid-19-informe.rmd  
+
+- Si tengo muchos archivos en una carpeta: utilizar números para ordenar y palabras clave para documentos similares  
+
+✅  01_procesamiento_base_covid.r  
+✅  02_graficos_evolucion_covid.r  
+✅  03_graficos_provincias_covid.r  
+✅  04_informe_covid.r  
+❌  COVID_datos-VF20210414.r  
+
+
+---
+
+class: inverse, center, middle
+
+# Importación y Exportación de archivos
+
+&lt;html&gt;
+  &lt;div style='float:left'&gt;&lt;/div&gt;
+  &lt;hr color='#EB811B' size=1px width=1125px&gt;
+&lt;/html&gt;
+
+---
+# Importación de bases de datos
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
