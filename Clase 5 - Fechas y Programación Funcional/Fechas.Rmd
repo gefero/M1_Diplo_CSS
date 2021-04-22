@@ -12,15 +12,17 @@ library(lubridate)
 ```
 
 ## Cargamos las bases
-En esta clase trabajaremos en paralelo con dos bases de datos. La base argentina de casos de COVID19 y una base con tweets que mencionan la palabra "vacuna". Ambas bases cuentan con variables de tipo fecha. Aun cuando ambas permitan tratamientos similares, veremos que la clase de variable en cuestión no es idéntica en una y otra base.    
+En esta clase trabajaremos en paralelo con dos bases de datos. La base argentina de casos de Covid19 y una base con tweets que mencionan la palabra "vacuna". Ambas bases cuentan con variables de tipo fecha. Aun cuando ambas permitan tratamientos similares, veremos que la clase de variable en cuestión no es idéntica en una y otra base ^[Esta clase está inspirada en el capítulo 16 del libro [R for Data Science](https://es.r4ds.hadley.nz/fechas-y-horas.html). Allí pueden profundizar algunos aspectos que exceden los alcances de la misma].     
 
--En la ```base.covid```, trabajaremos con la variable **fecha_apertura**, la cual nos indica la fecha en la cual fue "abierto" el caso. Es decir, el momento a partir del cual se empieza a tomar registro de una persona que fue analizada por ser posible caso positivo de COVID.  
--En la base ```vacuna.tweets```, trabajaremos con la variable **created_at** que nos indica cuando fue envíado cada uno de los tweets que constituyen los registros de la base 
+- En la ```base.covid```, trabajaremos con la variable **fecha_apertura**, la cual nos indica la fecha en la cual fue "abierto" el caso. Es decir, el momento a partir del cual se empieza a tomar registro de una persona que fue analizada por ser posible caso positivo de COVID.  
+- En la base ```vacuna.tweets```, trabajaremos con la variable **created_at** que nos indica cuando fue envíado cada uno de los tweets que constituyen los registros de la base   
+
+
 
 
 
 ```{r message=FALSE, warning=FALSE}
-base.covid <- readRDS("../Fuentes/base_covid_sample.csv")
+base.covid <- readRDS("../Fuentes/base_covid_sample.RDS")
 vacuna.tweets <- readRDS("../Fuentes/Bases adicionales/vacuna.tweets.RDS")
 ```
 
@@ -33,7 +35,8 @@ range(base.covid$fecha_apertura)
 ```{r}
 class(base.covid$fecha_apertura)
 ```
-Es un tipo de variable de tiempo. Tenemos tres tipos de variables de tiempo principales en R:   
+Es un tipo de variable de tiempo. Tenemos tres tipos de variables de tiempo principales en R:     
+
 - Date: (Sólo Año, Mes y Día).   
 - Time: (Un horario, sin especificar de que día es)  
 - Date-time: (Año, Mes, Día y horario)    
@@ -49,8 +52,8 @@ class(vacuna.tweets$created_at)
 ```
 Es un tipo de variable de tiempo completa (del estilo Date-Time) que está expresada en la zona horaria [UTC](https://time.is/UTC)). 
 
->¿Cual creen que es la principal ventaja de contar con una fecha expresada de esta forma?
-
+>¿Cual creen que es la principal ventaja de contar con una fecha expresada de esta forma?  
+  
 ##Lubridate     
 ###Extraccion de informacion de la fecha      
 
@@ -64,17 +67,34 @@ base.covid.fechas<- base.covid %>%
          mes       = month(fecha_apertura),
          semana       = week(fecha_apertura),
          dia.numero= wday(fecha_apertura),
-         dia.nombre= wday(fecha_apertura, label = TRUE))
-         # hora = hour(fecha_apertura),
-         # minutos = minute(fecha_apertura))
+         dia.nombre= wday(fecha_apertura, label = TRUE),
+         hora = hour(fecha_apertura),
+         minutos = minute(fecha_apertura))
 
 
 ```
-Veamos como quedan estas nuevas columnas.
+Veamos como quedan algunas de estas nuevas columnas.
 ```{r echo=FALSE}
 base.covid.fechas %>% 
-  select(fecha_apertura,(ncol(.)-6):ncol(.))
+  select(fecha_apertura,anio,trimestre,mes,dia.numero,dia.nombre,hora)
 ```
+
+```{r}
+base.vacunas.fechas<- vacuna.tweets %>% 
+  mutate(anio = year(created_at),
+         semestre  = semester(created_at),
+         trimestre = quarter(created_at),
+         mes       = month(created_at),
+         semana       = week(created_at),
+         dia.numero= wday(created_at),
+         dia.nombre= wday(created_at, label = TRUE),
+         hora = hour(created_at),
+         minutos = minute(created_at),
+         segundos = second(created_at)
+         )
+```
+
+
 
 ###Redondeos
 ```{r}
