@@ -48,9 +48,8 @@ getwd()
 
 Supongamos que quisieramos setear el directorio de trabajo en nuestra carpeta de "Fuentes", con el fin de facilitar la importación de bases de datos. La función setwd() nos permite realizar esto.
 
-```{r message=FALSE, warning=FALSE}
-setwd("C:/Users/usuario/Desktop/Guido/Trabajo/Repositorios de R/Cursos de R/Diplomatura UNSAM/Modulo 1/Fuentes")
-getwd()
+```{r message=FALSE, warning=FALSE, eval = FALSE}
+setwd("C:/Users/usuario/Desktop/Guido/Trabajo/Repositorios de R/Cursos de R/Diplomatura UNSAM/Modulo 2/Fuentes")
 ```
 
 > ¿ Que problema tiene setear la ruta de trabajo de esta manera?
@@ -73,7 +72,7 @@ Un proyecto no es un sólo script, sino toda una carpeta de trabajo.
 
 Para crearlo, vamos al logo de nuevo projecto (Arriba a la derecha de la panatalla), y elegimos la carpeta de trabajo.
 
-![](img/nuevo%20proyecto.png){width="410"}![](img/nuevo%20proyecto2.png){width="410"}\
+![](img/nuevo_proyecto.png){width="410"}![](img/nuevo_proyecto2.png){width="410"}\
 
 > Práctica: Abran RStudio en sus computadoras y creen un nuevo proyecto en un nuevo directorio de sus computadoras. Luego, abran un script, importen las librerías "openxlsx" y "tidyverse" al ambiente de trabajo. Guarden el script en la misma carpeta donde crearon el proyecto. Ejecuten la función list.files().
 
@@ -123,11 +122,11 @@ set.seed(131)
 sample_n(base.vacunas,size = 10)
 ```
 
-**Sugerencia:** para trabajar con bases muy pesadas (el caso de la base que se encuentra en la carpeta "Fuentes"), Explorar los parámetros que permiten levantar una cantidad límitada de filas. Para lo que sigue aquí, tomaremos solo los primeros 10.000 casos de la base
+**Sugerencia:** para trabajar con bases muy pesadas explorar los parámetros que permiten levantar una cantidad límitada de filas. En el caso de la función **read_csv**, el parámetro `n_max` nos permite levantar las primeras **n** filas
 
 ```{r}
-base.casos.covid <- read_csv("../Fuentes/Covid19Casos.csv",
-                             n_max = 10000)
+base.vacunas <- read_csv("../Fuentes/Bases adicionales/Covid19VacunasAgrupadas.csv",
+                             n_max = 5)
 ```
 
 ## Otras extensiones
@@ -159,7 +158,7 @@ Para exportar archivos *.RDATA* necesitamos la función `save` y para importar a
 
 ```{r}
 #leo base en formato RDS.
-base_tweets <- readRDS(file = "../Fuentes/Bases adicionales/vacuna.tweets.RDS")
+base.casos.covid <- readRDS(file = "../Fuentes/base_covid_sample.RDS")
 
 #si quiero guardar base en formato RDS.
 #saveRDS(object = base_tweets,file = "../base_nueva.RDS" )

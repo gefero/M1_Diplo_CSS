@@ -71,31 +71,34 @@ class(vacuna.tweets$created_at)
 ```
 Es un tipo de variable de tiempo completa (del estilo Date-Time) que está expresada en la zona horaria [UTC](https://time.is/UTC)). 
 
->¿Cual creen que es la principal ventaja de contar con una fecha expresada de esta forma?      
+>¿Cual creen que es la principal ventaja de contar con una fecha expresada de esta forma?  
 
-   
-##Lubridate  
+## Lubridate    
 
 El paquete `lubridate` es hoy en día uno de los más utilizados para trabajar con fechas en R. Tiene un conjunto de funciones con nombres intuitivos que permiten entre otras cosas:    
 
 - Construir variables de tipo fecha a partir de números o caracteres    
 - Extraer información de variables ya constituídas como fechas   
-- Realizar operatorias con fechas (ej: calculo de distancias temporales entre dos registros)    
+- Realizar operatorias con fechas (ej: calculo de distancias temporales entre dos registros)   
+
 ### ¿Y ahora?      
+
 ¿En qué momento del tiempo estoy parado según R? (En este caso es el momento en que retoqué por última vez este material)
 ```{r}
 today()
 now()
 ```
 ¿Cuántos días me quedan hasta el comienzo de la diplomatura?
-```{r}
-"2021-05-04"- today() 
+```{r echo=TRUE,error=TRUE}
+comienzo_diplo <- "2021-05-04"
+
+comienzo_diplo - today() 
 ```
 Aunque R nos muestre como resultado de la función `today()` algo similar a un objeto de tipo character, no podemos simplemente a través de un character hacerle entender a R que estamos refiriendo a una fecha.     
 Necesitamos explicitamente crear objetos de clase fecha!   
 
 ### Crear Fechas
-Hay un set de funciones del paquete *lubridate que* siguen la siguiente lógica:          
+Hay un set de funciones del paquete *lubridate* que siguen la siguiente lógica:          
 Mediante la combinacion de los caracteres **dmy_hms** que representan a día(d), mes(m), año(y), hora(h), minuto(m) y segundo(s) podemos convertir un número (o un string) hacia una fecha.   
 
 Por ejemplo, la función `ymd()` me permite pasar un numero que contenga año, mes y dia y transformarlo en formato fecha.
@@ -124,11 +127,12 @@ class(ejemplo2_ok)
 
 Para formatos un poco menos estandarizados, la función `parse_date_time()` nos puede ser útil para transformar una variable character hacia una variable fecha.
 ```{r}
-vector_importado_excel <- c("Apr-20","May-20","Jun-20") 
-parse_date_time(vector_importado_excel, orders = 'my')
+vector_fechas_importado <- c("Apr-20","May-20","Jun-20") 
+
+parse_date_time(vector_fechas_importado, orders = 'my')
 ```
 
-###Extraccion de informacion de la fecha      
+### Extraccion de informacion de la fecha      
 Otra aplicación útil de *lubridate* es que nos permite extraer muy intuitivamente información cuando contamos con una variable construida como fecha.     
 
 ```{r,warning=FALSE}
@@ -150,7 +154,7 @@ base.covid.fechas<- base.covid %>%
 ```
 
 Veamos como quedan algunas de estas nuevas columnas.
-```{r echo=FALSE}
+```{r}
 base.covid.fechas %>% 
   select(fecha_apertura,anio,mes,dia.del.mes,dia.del.anio,dia.nombre,hora)
 ```
@@ -181,7 +185,7 @@ Importante notar que:
 - Los nombres de funciones para **extraer** informacion de las fechas llevan el **singular** (ej: day,month,hour)
 - Las nombres de funciones para **transformar** las fechas llevan el **plural** (ej: days, months,hours).   
 
-> Practica: Filtrar un conjunto de 5 semanas consecutivas en la base de datos. ¿Qué dia de la semana se abren menos casos?      
+> Practica: Filtrar un conjunto de 5 semanas consecutivas en la base de datos covid. ¿Qué dia de la semana se abren menos casos?      
 
 ```{r eval=FALSE, warning=FALSE, include=FALSE}
 ejercicio <- base.covid.fechas %>% 
@@ -208,3 +212,18 @@ base.covid.fechas %>%
   arrange(tiempo.promedio)
 ```
 
+> Practica: ¿Cuanto fue el máximo tiempo registrado en toda la base de datos entre una fecha de inicio de sintomas y el diagnóstico del caso? ¿En qué departamento y provincia ocurrió? Detallar año y mes del caso en cuestión
+
+```{r eval=FALSE, warning=FALSE, include=FALSE} 
+ejercicio2 <- base.covid.fechas %>% 
+  mutate(tiempo.diagnostico = fecha_diagnostico - fecha_inicio_sintomas,
+         anio.inicio.sint = year(fecha_inicio_sintomas),
+         mes.inicio.sint = month(fecha_inicio_sintomas)
+         ) %>% 
+  filter(tiempo.diagnostico == max(tiempo.diagnostico,na.rm = T))
+
+ejercicio2 %>% 
+  select(residencia_departamento_nombre,residencia_provincia_nombre,
+         tiempo.diagnostico,fecha_inicio_sintomas,fecha_diagnostico,
+         anio.inicio.sint,mes.inicio.sint)
+```

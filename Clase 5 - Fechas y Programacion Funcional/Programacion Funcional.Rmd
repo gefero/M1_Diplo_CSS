@@ -1,5 +1,5 @@
 ---
-title: Programacion Funcional
+title: Clase 5 - Programacion Funcional - UNSAM
 output:
   html_notebook:
     toc: yes
@@ -15,8 +15,7 @@ En esta clase vamos a ver algunas herramientas un poco más avanzadas que sirven
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
-base.covid <- read_csv('../Fuentes/Covid19Casos.csv',
-                       n_max = 100000)
+base.covid <- readRDS('../Fuentes/base_covid_sample.RDS')
 ```
 
 
@@ -41,8 +40,7 @@ for(Valores in 1:10){
 ```
 
 Un loop puede iterar sobre cualquier tipo de vector, independientemente de lo que contenga.
-
-> Los loops son una estructura básica que existen en cualquier lenguaje de programación. En R no recomendamos abusar de ellos porque hacen que el código sea más lento.   
+   
 
 ¿Cómo operar con un loop sobre la base de datos? Por lo general, lo más frecuente es que querramos realizar un mismo procedimiento sobre distintos valores de cierta variable de nuestra base. Para eso es util crear un vector con las categorías que esta puede tomar. Ese vector será el que utilizaremos para iterar.
 ```{r}
@@ -51,15 +49,14 @@ clasificacion.caso
 ```
 
 ```{r}
-for(categoria in clasificacion.caso){
+for(categoria in c("Descartado","Confirmado","Sospechoso")){
    
 base.filtrada  <- base.covid %>% 
     filter(clasificacion_resumen  == categoria)  
     
 hist(x = base.filtrada$edad,
      main = categoria,
-     xlab = "Edad",
-     breaks =  c(0,10,20,30,40,50,60,70,80,90,100,110,120,130))
+     xlab = "Edad")
 }
 ```
 Hago el mismo loop para la variable de fallecidos, para darle más sentido al ejercicio.
@@ -73,8 +70,7 @@ base.filtrada  <- base.covid %>%
     
 hist(x = base.filtrada$edad,
      main = categoria,
-     xlab = "Fallecimiento: ",
-     breaks =  c(0,10,20,30,40,50,60,70,80,90,100,110,120,130))
+     xlab = "Fallecimiento: ")
 }
 
 ```
@@ -186,7 +182,7 @@ ratio
 Ahora bien, cuando pensamos en funciones más complejas cuya operatoria no es tan obvia, pueden agregarse chequeos, y operatorias condicionales con alguna advertencia para que el usuario pueda comprender un error, o tenga mayor noción de qué está haciendo la función.       
 
 Que pasa si el usuario de la función no pasa un vector numérico?
-```{r}
+```{r, error=TRUE}
 calcula_ratio(vector = c(1,2,3,4,"H"))
 ```
 
