@@ -54,13 +54,15 @@ class: center, middle, inverse, title-slide
 # Hoja de ruta
 
 
-&lt;br&gt;
-
 ## ✔️ Paquetes complementarios
 
 ## ✔️ Proyectos en R
 
-## ✔️ Lectura y escritura de archivos
+## ✔️ Importación de bases de datos
+
+## ✔️ Mirada exploratoria de la base
+
+## ✔️ Exportación de resultados
 
 &lt;br&gt;
 
@@ -330,13 +332,80 @@ En archivos de texto plano, el paquete se recomienda usar el paquete **readr** (
 ]
 
 ---
+#Importación de bases de datos
+
+El primer y más importante parámetro de las funciones para importar datos suele llamarse  **`file`**. Allí debemos especificar la ruta hasta el archivo, incluyendo la extensión del mismo. 
+
+Si tenemos abierto un proyecto, el punto de partida para la ruta a especificar será la carpeta del proyecto. Si queremos ir hacia atrás en las carpetas agregamos  **`../`**
+
+```r
+base.vacunas&lt;- read_csv(
+  file = "../Fuentes/Covid19VacunasAgrupadas.csv",
+  col_names = TRUE, # TRUE si la primera fila tiene nombres de columnas
+  n_max = 100)      # Puedo especificar cuantas filas levantar
+
+base.covid &lt;- readRDS(file = "../Fuentes/base_covid_sample.RDS")
+```
+**IMPORTANTE**: Siempre que lean bases de datos asignarlas a un nuevo objeto. De lo contrario, las va a mostrar completas en consola y no va a guardarlas en el ambiente de trabajo (enviroment)
+---
 #Práctica
 
 - Copien la carpeta "Bases adicionales" adentro de la carpeta del proyecto que crearon previamente.
 
 - Con el proyecto y script previos abiertos en RStudio, importen correctamente a su ambiente de trabajo el archivo **"Covid19VacunasAgrupadas.csv"**
 
-- Utilicen la función `read.xlsx` para importar como dos objetos separados las bases que se encuentran en ambas pestañas del excel **"Adquisiciones y vuelos covid.xlsx"**. (Pista: Pueden inspeccionar los parámetros de la función ejecutando **`?read.xlsx`**
+- Utilicen la función `read.xlsx` para importar como dos objetos separados las bases que se encuentran en ambas pestañas del excel **"Adquisiciones y vuelos covid.xlsx"**. (Pista: Pueden inspeccionar los parámetros de la función ejecutando **`?read.xlsx`**  
+
+---
+#Mirada exploratoria de la base de datos
+Algunas funciones útiles para explorar rápidamente el contenido de nuestra base de datos:
+- **`summary()`**: Muestra medidas de resumen de las variables: distintos momentos de la distribución para variables *numéricas* o de *fecha*, y un conteo de casos para variables de tipo *character*. 
+
+- **`unique()`**: Permite ver los únicos valores que toma cierta variable en mi base de datos.
+
+- **`table()`**: Esta función puede utilizarse para hacer tabulados univariados o bivariados.
+
+- **`glimpse()`**&lt;sup&gt;t&lt;/sup&gt;: nos muestra en formato más amigable un listado de las variables de la base, indicando la clase de variable en cuestión, y muestra los primeros valores de cada una de ellas
+
+- **`sample_n()`**&lt;sup&gt;t&lt;/sup&gt;: Nos permite seleccionar una muestra al azar de **n** casos de nuestra base. Puede ser útil para una primera mirada de la base que trascienda a los primeros casos, o bien para procedimienos de muestreo.  
+
+&lt;sup&gt;t&lt;/sup&gt; Pertenecen al paquete **tidyverse**
+
+
+---
+#Práctica
+- Lleven a la carpeta del proyecto la base de datos **"base_covid_sample.RDS"** que está en la carpeta Fuentes.
+- Importen la base de datos al ambiente de trabajo (Ver función adecuada para importar archivos .RDS)
+- Apliquen la función **`summary(nombre_base_datos)`**. Observen el resultado en consola. ¿Algo les llama atención de la información arrojada?
+- Ejecuten **`table(nombre_base_datos$sexo)`** y observen el total de casos de la base por sexo
+- ¿Qué valores puedo encontrar en la variable **clasificacion_resumen**?
+- Elaboren un tabulado bivariado entre las variables **sexo** y **clasificacion_resumen**
+
+---
+#Exportación de resultados
+Por lo general, cada paquete que presenta funciones para importar bases de dato, tiene como complemento una función para exportar (guardar en el disco de nuestra PC) un objeto con la misma extensión. Ejemplos: 
+
+
+ - el paquete **openxlsx** tiene una función denominada **`write.xlsx()`** que nos permite exportar un dataframe creando un archivo **.xslx**
+ - En RBase la función **`saveRDS()`** nos permite exportar archivos de extensión **.RDS** (son menos pesados para trabajarlos luego desde R)
+
+En general estas funciones tienen un primer parametro para especificar el objeto a exportar, y un segundo para especificar la ruta y el nombre de archivo a crear () 
+
+```r
+write.xlsx(x = objeto_resultados,file = "Resultados/cuadro1.xlsx")
+
+saveRDS(object = objeto_resultados,file = "Resultados/base_nueva.RDS")
+```
+
+---
+#Práctica
+- Elaboren un tabulado bivariado con **table()** y asignenlo para generar un objeto en su ambiente de trabajo
+
+- Prueben ejecutar la siguiente línea de código: ```dir.create("Resultados/")```. ¿Que generó en la carpeta de su proyecto?
+
+- Exporten el objeto que contiene el tabulado anterior hacia un Excel utilizando la funcion **`write.xlsx`**. 
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

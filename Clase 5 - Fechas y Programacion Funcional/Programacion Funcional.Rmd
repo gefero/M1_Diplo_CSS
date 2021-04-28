@@ -5,13 +5,13 @@ output:
     toc: yes
     toc_float: yes
 date: ""
-subtitle: Explicación
 ---
 ```{r setup,include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-En esta clase vamos a ver algunas herramientas un poco más avanzadas que sirven para extender el tipo de procesamientos que vimos
+# Introducción 
+En este material vamos a ver algunas herramientas un poco más avanzadas que sirven para escalar procedimientos que vimos anteriormente y/o para automatizar nuestro trabajo evitando tener que copiar todo el tiempo nuestro código y modificar algunos parametros o variables cada vez que querramos realizar procedimientos parecidos 
 
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -19,7 +19,7 @@ base.covid <- readRDS('../Fuentes/base_covid_sample.RDS')
 ```
 
 
-### Loops
+# Loops
 
 Un __loop__ es una estructura de código que nos permite aplicar iterativamente un mismo conjunto de comandos, variando el valor de una variable. Por ejemplo:
 
@@ -44,40 +44,39 @@ Un loop puede iterar sobre cualquier tipo de vector, independientemente de lo qu
 
 ¿Cómo operar con un loop sobre la base de datos? Por lo general, lo más frecuente es que querramos realizar un mismo procedimiento sobre distintos valores de cierta variable de nuestra base. Para eso es util crear un vector con las categorías que esta puede tomar. Ese vector será el que utilizaremos para iterar.
 ```{r}
-clasificacion.caso<- unique(base.covid$clasificacion_resumen)
-clasificacion.caso
+clasificacion.casos<- unique(base.covid$clasificacion_resumen)
+clasificacion.casos
 ```
 
-```{r}
-for(categoria in c("Descartado","Confirmado","Sospechoso")){
+```{r,fig.height=8}
+for(categoria in clasificacion.casos){
    
 base.filtrada  <- base.covid %>% 
     filter(clasificacion_resumen  == categoria)  
     
 hist(x = base.filtrada$edad,
      main = categoria,
-     xlab = "Edad")
+     xlab = "Edad",
+     xlim = c(0,130))
 }
 ```
-Hago el mismo loop para la variable de fallecidos, para darle más sentido al ejercicio.
+Hagamos el mismo loop para la variable de fallecidos, para darle más sentido al ejercicio.
 ```{r}
-categorias.fallecim<- unique(base.covid$fallecido)
-
-for(categoria in categorias.fallecim){
+for(categoria in c("SI","NO")){
    
 base.filtrada  <- base.covid %>% 
     filter(fallecido  == categoria)  
     
 hist(x = base.filtrada$edad,
-     main = categoria,
-     xlab = "Fallecimiento: ")
+     main = paste0("Fallecido: ",categoria),
+     xlab = "Edad",
+     xlim = c(0,130))
 }
-
 ```
 
-### Estructuras Condicionales  
+# Estructuras Condicionales  
 
-#### ifelse
+## ifelse
 La función ```if_else()``` sirve para crear o modificar dicotómicamente un objeto/variable/vector a partir del cumplimiento de una o más condiciones lógicas.  
 
 Su funcionamiento es el siguiente:      
@@ -92,13 +91,13 @@ table(base.covid$Grupo)
 
 A diferencia del *ifelse*, que según el cumplimiento de la condición lógica nos permite asignar un valor, la función *if* se utilizará para correr código condicionalmente
 
-#### if
+## if
 Su funcionamiento es el siguiente:     
 ```if(condicion){codigo a ejecutar si se cumple la condición}```
 
 ```{r,warning=FALSE}
 if( 2+2 == 4){
-  print("Menos Mal")
+  print("Todo marcha bien")
 }
 
 ```
@@ -112,7 +111,7 @@ if( 2+2 == 148.24){
 
 
 
-### Funciones
+# Funciones propias
 
 La creación de __funciones__ propias nos permite automatizar todas aquellas partes del código que se repiten mucho. Una vez diseñadas, funcionan igual que cualquier comando. 
 
@@ -187,7 +186,7 @@ calcula_ratio(vector = c(1,2,3,4,"H"))
 ```
 
 En este caso, podríamos haber seteado un mensaje más amigable que permita al usuario comprender su error.
-```{r}
+```{r, error=TRUE}
 calcula_ratio <- function(vector) {
   
 assertthat::assert_that(is.numeric(vector),
@@ -217,7 +216,7 @@ assertthat::assert_that(is.numeric(vector),
   
 if(any(vector==0)){
 
-  warning("Hay un cero en tu vector, no lo tomo en cuenta para el calculo")
+  warning("Mensaje: Hay un cero en tu vector, no lo tomo en cuenta para el calculo")
   vector <- vector[vector!=0]
   
 }
@@ -231,7 +230,6 @@ return(vector.max/vector.min)
 ```
 Veamos que pasa
 ```{r}
-ratio <- calcula_ratio(vector = c(456,78,1232,6565,12,0))
-ratio
+calcula_ratio(vector = c(456,78,1232,6565,12,0))
 ```
 

@@ -32,17 +32,17 @@ vacuna.tweets <- readRDS("../Fuentes/Bases adicionales/vacuna.tweets.RDS")
 
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-covid.confirmado <- base.covid %>% 
-  filter(clasificacion_resumen == "Confirmado")
+# covid.confirmado <- base.covid %>% 
+#   filter(clasificacion_resumen == "Confirmado")
+# 
+# a <- ggplot(covid.confirmado,aes(x = fecha_apertura))+
+#   labs(title = "Cantidad de casos confirmados segun fecha de apertura",
+#        subtitle = "Muestra del 2% de casos diarios por departamento",
+#        x = "Fecha",
+#        y = "Cantidad de casos confirmados")+
+# geom_histogram(binwidth = 1)
 
-a <- ggplot(covid.confirmado,aes(x = fecha_apertura))+
-  labs(title = "Cantidad de casos confirmados segun fecha de apertura",
-       subtitle = "Muestra del 2% de casos diarios por departamento",
-       x = "Fecha",
-       y = "Cantidad de casos confirmados")+
-geom_histogram(binwidth = 1)
-
-ggsave(a,filename = "img/casos_confirmados.png",width = 15,height = 9)
+#ggsave(a,filename = "img/casos_confirmados.png",width = 15,height = 9)
 ```
 
 
@@ -132,6 +132,21 @@ vector_fechas_importado <- c("Apr-20","May-20","Jun-20")
 parse_date_time(vector_fechas_importado, orders = 'my')
 ```
 
+>Practica: Copiar los siguientes vectores en un script y transformarlos correctamente a vectores de tipo fecha.
+
+```{r}
+fechas_1<- c("05-04-2021","01-01-1959","08-03-1917","09-14-1867")
+fechas_2<- c("22-06-1986 19:06:00","22-06-1986 19:10:15",
+                "09-12-2018 22:02:10")
+fechas_3 <- c("2020-April-10","2020/May/11","2020-June 12")
+```
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+mdy(fechas1)
+dmy_hms(fechas_hora)
+parse_date_time(fechas_3, orders = 'ymd')
+```
+
+
 ### Extraccion de informacion de la fecha      
 Otra aplicación útil de *lubridate* es que nos permite extraer muy intuitivamente información cuando contamos con una variable construida como fecha.     
 
@@ -158,9 +173,16 @@ Veamos como quedan algunas de estas nuevas columnas.
 base.covid.fechas %>% 
   select(fecha_apertura,anio,mes,dia.del.mes,dia.del.anio,dia.nombre,hora)
 ```
->¿Qué pasa con las horas cuando trabajamos con variables "Date"?    
+> Practica: Creen un dataframe a partir del primer vector del ejercicio de practica anterior. Luego generen 3 nuevas columnas que detallen para cada fecha en cuestión: el numero de semana del año, el numero de dia del año, y el nombre del día  
 
-###Operaciones con fechas                 
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+fechas.df <- data.frame(fecha.primer.vec = mdy(fechas_1)) %>% 
+  mutate(semana.del.anio = week(fecha.primer.vec),
+         dia.del.anio = yday(fecha.primer.vec),
+         dia.nombre = wday(fecha.primer.vec,label = T))
+```
+
+### Operaciones con fechas                 
 
 El paquete tiene una serie de funciones para operar realizando transformaciones sobre las fechas. Tomemos una fecha del primer registro para operar sobre ella: 
 ```{r}
