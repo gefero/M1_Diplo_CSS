@@ -1,0 +1,54 @@
+---
+title: "Procesamiento de datos con R para Turismo"
+subtitle: "R base - Practica independiente"
+output:
+  html_document
+---
+
+
+# Ejercicios de práctica
+
+<br> 
+
+a. Crear un OBJETO llamado _COSA_ cuyo contenido sea el resultado de la multiplicación: 5*6
+```{r}
+
+```
+
+<br> 
+
+b. Crear un __VECTOR__ llamado _VEC0_ que contenga los números 10, 20, 30.
+```{r}
+
+```
+
+<br> 
+
+c. Modificar el segundo elemento de _VEC0_, asignandole el valor *40*
+```{r}
+
+```
+
+<br> 
+
+d. Crear 3 vectores (llamarlos _VEC1_, _VEC2_, _VEC3_). con la misma cantidad de elementos que _VEC0_, pero con variables de tipo _character_ (texto). 
+```{r}
+
+```
+
+<br> 
+
+e. Crear un dataframe (llamarla: _BASE_DATOS_) que contenga los __vectores__ creados previamente
+```{r}
+
+```
+
+<br> 
+
+f. Crear un objeto llamado *OTRA_COSA* que guarde el valor contenido en la segunda fila y tercera columna del dataframe _BASE_DATOS_
+```{r}
+
+```
+
+<br> 
+

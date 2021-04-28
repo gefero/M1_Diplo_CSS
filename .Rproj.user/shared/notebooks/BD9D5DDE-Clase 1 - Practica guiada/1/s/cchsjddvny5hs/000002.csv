@@ -1,0 +1,17 @@
+"0","```r
+VEC0 <- c(1,3,4)
+VEC1 <- VEC0
+VEC2 <- VEC1 +2
+VEC2 <-  -2
+VEC2
+VEC1
+VEC1 [3]<- 67
+VEC1
+VEC1 [1:3] <- 125
+VEC1
+VEC4 <- c(\"PUPITO\",\"PEPITA\",\"MENGANITO\")
+class(VEC4)
+
+tabla <- data.frame(VEC0,VEC1,VEC4)
+tabla
+```"

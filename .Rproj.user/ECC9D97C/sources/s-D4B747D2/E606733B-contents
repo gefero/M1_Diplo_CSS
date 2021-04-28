@@ -1,0 +1,25 @@
+# Auxiliar
+
+
+edad <- c(24, 56, 75, 42, 99)
+nombre <- c("D'rtanian", "Rigoberta", "Menganita", "Juancito", "Estanislao")
+nombre_y_apellido <- c("D'artanian estrujillo", "Rigoberta manchuria", "Menganita fulaique", 
+                       "Juancito loquillo", "Estanislao leningrado")
+
+
+
+              funcion(argumento1)
+              
+              
+              
+              
+              
+              
+              
+              
+              
+## <span style="background-color: #ffffbf">Reglas</span> para nombrar objetos:
+              
+## <span style="background-color: #ffffbf">Sugerencias</span> para nombrar objetos:
+
+## <span style="background-color: #ffffbf">Convensiones</span> para nombrar objetos:
