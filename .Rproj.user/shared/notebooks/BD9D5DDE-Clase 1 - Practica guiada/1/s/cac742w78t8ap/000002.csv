@@ -1,0 +1,4 @@
+"0","```r
+## Base individual
+base_ind_t1_19 <- read.table(\"../Fuentes/usu_individual_t119.txt\",header=TRUE,sep=\";\", dec=\",\")
+```"

@@ -1,0 +1,54 @@
+---
+title: "R base"
+subtitle: "Práctica guiada"
+output:
+  html_document
+---
+
+
+# Ejercicios de práctica de la presentación
+
+<br> 
+
+1. Sumar dos o más valores sin utilizar una función
+```{r}
+
+```
+
+<br> 
+
+1. Crear un vector numérico que contenga 7 valores
+```{r}
+
+```
+
+<br> 
+
+1. Crear un vector de texto que contenga 3 valores 
+```{r}
+
+```
+
+<br> 
+
+1. Verificar de qué tipo es el valor "67" (comprobar con comillas y sin comillas)
+```{r}
+
+```
+
+<br> 
+
+e. Crear un dataframe (llamarla: _BASE_DATOS_) que contenga los __vectores__ creados previamente
+```{r}
+
+```
+
+<br> 
+
+f. Crear un objeto llamado *OTRA_COSA* que guarde el valor contenido en la segunda fila y tercera columna del dataframe _BASE_DATOS_
+```{r}
+
+```
+
+<br> 
+
