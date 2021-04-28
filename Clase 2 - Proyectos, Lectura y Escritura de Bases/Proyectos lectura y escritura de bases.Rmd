@@ -48,7 +48,7 @@ getwd()
 
 Supongamos que quisieramos setear el directorio de trabajo en nuestra carpeta de "Fuentes", con el fin de facilitar la importación de bases de datos. La función setwd() nos permite realizar esto.
 
-```{r message=FALSE, warning=FALSE, eval = FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=TRUE}
 setwd("C:/Users/usuario/Desktop/Guido/Trabajo/Repositorios de R/Cursos de R/Diplomatura UNSAM/Modulo 2/Fuentes")
 ```
 
