@@ -59,18 +59,18 @@ vacuna.tweets.select <- vacuna.tweets %>%
 
 head(vacuna.tweets.select)
 ```
-
-#Expresiones regulares
-
-Un elemento fundamental para la manipulación del texto son las [expresiones regulares](https://stringr.tidyverse.org/articles/regular-expressions.html). Éstas sirven para captar _patrones_ que aparecen en el texto y luego operar sobre ellos (extraerlos, reemplazarlos, realizar filtros en base a ellos, etc.)
-
-![](img/regex.png){width=1000}
+<br>
 Aparecen muchas cosas que vamos a querer descartar para analizar el texto:  
 
 - Links a paginas web
 - Caracteres especiales ("",?,#)
 - Códigos correspondientes a imágenes
 
+#Expresiones regulares
+
+Un elemento fundamental para la manipulación del texto son las [expresiones regulares](https://stringr.tidyverse.org/articles/regular-expressions.html). Éstas sirven para captar _patrones_ que aparecen en el texto y luego operar sobre ellos (extraerlos, reemplazarlos, realizar filtros en base a ellos, etc.)
+
+![](img/regex.png){width=1000}
 
 # stringr
 ## Funciones básicas de operación con strings
@@ -301,7 +301,7 @@ base.filtrada <- vacuna.tweets %>%
 
 nrow(base.filtrada) # Ganamos más casos.
 ```
-> Ganamos más casos. Cuales pueden haber sido?
+> Ganamos más casos. ¿Cuales pueden haber sido?
 
 ###str_extract 
 La funciones `str_extract` y `str_extract_all` nos permiten extraer de nuestros strings, determinados patrones especí¿ificados.     
