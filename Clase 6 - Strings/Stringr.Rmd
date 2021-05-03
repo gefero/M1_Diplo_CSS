@@ -22,11 +22,10 @@ La presente clase está destinada a introducir las principales funciones del paq
  #install.packages("rtweet")
 library(rtweet) # descargar info de twitter
 library(tidyverse)
-library(openxlsx)
 library(RVerbalExpressions)
 ```
 
-#Fuente de Info
+# Fuente de Info
 En la carpeta de *Fuentes/Bases Adicionales* tienen un archivo denominado "vacuna.tweets.RDS", el mismo tiene 10.000 registros descargados de twitter con el texto "vacuna" como motor de búsqueda.    
 
 El mismo fue descargado con el paquete [__rtweet__](https://rtweet.info/). Tiene un montón de funcionalidades para acceder a información de twitter (aunque de forma limitada sin poner el billete).     
@@ -66,7 +65,7 @@ Aparecen muchas cosas que vamos a querer descartar para analizar el texto:
 - Caracteres especiales ("",?,#)
 - Códigos correspondientes a imágenes
 
-#Expresiones regulares
+# Expresiones regulares
 
 Un elemento fundamental para la manipulación del texto son las [expresiones regulares](https://stringr.tidyverse.org/articles/regular-expressions.html). Éstas sirven para captar _patrones_ que aparecen en el texto y luego operar sobre ellos (extraerlos, reemplazarlos, realizar filtros en base a ellos, etc.)
 
@@ -89,7 +88,15 @@ Ojo que cuenta los espacios en blanco como un caracter.
 string2 <- "Sputnik V"
 str_length(string2)
 ```
->Ejercicio: Crear en la base de datos una nueva columna que identifique en cada caso el largo del tweet. Luego, mostrar el o los casos de máxima longitud de esta variable.   
+>Ejercicio: Crear en la base de datos una nueva columna que identifique en cada caso el largo del tweet. Luego, mostrar el o los casos de máxima longitud de esta variable.
+
+```{r eval=FALSE, include=FALSE}
+vacuna.tweets %>% 
+  mutate(largo.tweet = str_length(text)) %>% 
+  top_n(n = 5,wt = largo.tweet)
+```
+
+
 
 ### str_c
 Esta función tiene una operatoria similar a la función `paste`, pero aglutina todas sus variantes. 
@@ -191,6 +198,12 @@ str_to_title("vacunación en argentina")
 
 > Ejercicio: Crear una nueva variable en la base de datos que contenga el texto de los tweets, transformando a todos los caracteres en minúsculas.
 
+```{r eval=FALSE, include=FALSE}
+resol <- vacuna.tweets %>% 
+  mutate(texto.min = str_to_lower(text))
+```
+
+
 ## Funciones de detección de patrones 
 En esta instancia comlejizaremos un poco la operatoria con strings, ya que comenzaremos a ver funciones que operan *identificando un patrón* específico dentro del texto, para luego realizar diversas operaciones (separación del texto, reemplazo de caracteres, extracción de caracteres, filtrado de casos dento de una base, etc).      
 
@@ -255,6 +268,15 @@ str_replace_all(string = primer.tweet,
 
 > Ejercicio: Crear en la base de datos una nueva columna, que contenga el texto de los tweets, pero que reemplace todos los signos de puntuación por un espacio vacío.
 
+```{r eval=FALSE, include=FALSE}
+resol <- vacuna.tweets %>% 
+  mutate(texto.sin.puntos = str_replace_all(string = text,
+                                            pattern = ".",
+                                            replacement = " " 
+                                            ))
+```
+
+
 ### str_detect
 
 La función `str_detect()` realiza una comprobación lógica respecto a la existencia de una cierta expresión dentro de nuestros strings. Nos reporta `VERDADERO` o `FALSO` de acuerdo encuentre o no la expresión que estamos buscando.    
@@ -304,7 +326,7 @@ nrow(base.filtrada) # Ganamos más casos.
 > Ganamos más casos. ¿Cuales pueden haber sido?
 
 ###str_extract 
-La funciones `str_extract` y `str_extract_all` nos permiten extraer de nuestros strings, determinados patrones especí¿ificados.     
+La funciones `str_extract` y `str_extract_all` nos permiten extraer de nuestros strings, determinados patrones específicados.     
 
 Su utilización cobrará más sentido cuando veamos como diseñar patrones  más complejos. 
 
@@ -369,7 +391,7 @@ vacuna.tweets %>%
 ```
 <br>
 
-#RVerbalExpressions
+# RVerbalExpressions
 ¿Qué hacemos cuando se torna muy díficil el armado de expresiones regulares?
 
 La librería de **RVerbalExpressions** provee una serie de funciones con nombres intuitivos, para diseñar expresiones regulares en formato tidy, mediante la aplicación secuencial de ellas. Si queremos borrar las menciones, en este caso necesitamos construir una expresion que encuentre un texto iniciado en "@" e identifique todos los caracteres que le sigan hasta que aparezca un espacio.
