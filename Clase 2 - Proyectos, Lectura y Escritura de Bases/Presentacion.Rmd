@@ -3,7 +3,7 @@ title: "Flujo de trabajo en R"
 subtitle: "Ciencias Sociales Computacionales"
 output:
   xaringan::moon_reader:
-    self_contained: false
+    self_contained: true
     css: [default, metropolis, metropolis-fonts]
     lib_dir: libs
     nature:

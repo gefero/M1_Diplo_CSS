@@ -422,7 +422,9 @@ ejemplos.limpieza<- str_remove_all(ejemplos.limpieza, pattern = hasthags)
 ejemplos.limpieza
 ```
 
-Remplacemos todo aquello que no es una palabra por un espacio
+Eliminemos todo aquello que no comienza por un caracter alfanumérico o por un espacio en blanco (lo hacemos con un replace por un espacio vacío)
 ```{r}
-str_replace_all(ejemplos.limpieza, pattern = "\\W",replacement = " ")
+str_replace_all(ejemplos.limpieza,
+                pattern = "[^[:alnum:][:blank:]]",
+                replacement = "")
 ```
