@@ -19,7 +19,7 @@ output:
 options(tibble.width = NULL)
 ```
 
-```{r}
+```{r include=FALSE}
 hook_source <- knitr::knit_hooks$get('source')
 knitr::knit_hooks$set(source = function(x, options) {
   x <- stringr::str_replace(x, "^[[:blank:]]?([^*].+?)[[:blank:]]*#<<[[:blank:]]*$", "*\\1")
@@ -254,7 +254,7 @@ _<p style="color:grey;" align:"center">Una forma de escribir</p>_
 
 .pull-left[
 
-### Sin EL PIPE:
+### **Sin EL PIPE:**
 
 ```{r eval=F}
 table(`base_covid$sexo`)
@@ -271,7 +271,7 @@ table(base_covid$sexo)
 
 .pull-right[
 
-### Con EL PIPE
+### **Con EL PIPE**
 
 
 ```{r eval = F}
@@ -292,7 +292,7 @@ base_covid$sexo %>%
 ---
 # magrittr - una forma de escribir
 
-### Caso: Deseo obtener la distribución relativa de casos por sexo:
+### **Caso:** Deseo obtener la distribución relativa de casos por sexo:
 
 #### Funciones:
 
@@ -594,7 +594,7 @@ knitr::include_graphics(here("Clase 3 - Tidyverse", "img", "filter_presentacion.
 # filter()
 
 
-#### Caso: Quiero quedarme unicamente con aquella población que tuvieron __asistencia respiratoria mecánica__. 
+#### **Caso:** Quiero quedarme unicamente con aquella población que tuvieron __asistencia respiratoria mecánica__. 
  
 Según la [metadata](http://datos.salud.gob.ar/dataset/covid-19-casos-registrados-en-la-republica-argentina/archivo/fd657d02-a33a-498b-a91b-2ef1a68b8d16), la variable que necesito para filtrar se llama `asistencia_respiratoria_mecanica`, cuyas categorías son `SI / NO`: 
 
@@ -649,7 +649,7 @@ base_covid %>%
 ---
 # filter()
 
-### Caso: Quiero quedarme con la población de la _Ciudad Autónoma de buenos Aires_ __o__ de _la provincia Buenos aires_ __y__ que haya recibido asistencia respiratoria mecánica:
+### **Caso:** Quiero quedarme con la población de la _Ciudad Autónoma de buenos Aires_ __o__ de _la provincia Buenos aires_ __y__ que haya recibido asistencia respiratoria mecánica:
 
 
 <br>
@@ -729,7 +729,7 @@ base_de_datos %>%
 
 <br><br>
 
-### Caso: Supongamos que quiero crear la variable de año y mes de fallecimiento (variable __fecha_fallecimiento__):
+### **Caso:** Supongamos que quiero crear la variable de año y mes de fallecimiento (variable __fecha_fallecimiento__):
 
 <br><br>
 
@@ -921,9 +921,7 @@ base_covid %>%
 
 ```{r group_by_2, eval = F, echo = F}
 base_covid %>% #BREAK
-  select(edad, 
-         sexo, 
-         fallecido,
+  select(edad,sexo, fallecido,
          res_provincia = residencia_provincia_nombre) %>% #BREAK
   mutate(edad_rango = case_when(edad %in% c(0:18) ~  "0 a 18",
                                 edad %in% c(19:29) ~ "19 a 29",
@@ -950,14 +948,15 @@ base_covid %>% #BREAK
 ---
 class: middle, center, inverse
   
-```{r echo=FALSE, out.width = '50%', fig.align = 'center'}
+```{r echo=FALSE, out.width = '30%', fig.align = 'center'}
 knitr::include_graphics(here("Clase 3 - Tidyverse", "img", "logo tidyr.png"))
 ```
 
 ---
 # Funciones del paquete tidyr:
 
-<br>
+<br><br>
+<br><br>
 
 | __Función__      | __Acción__ |
 | :---             | ---:       |
@@ -968,6 +967,7 @@ knitr::include_graphics(here("Clase 3 - Tidyverse", "img", "logo tidyr.png"))
 ---
 # estructura de datos
 
+<br>
 
 .pull-left[
 
