@@ -1,4 +1,0 @@
-"0","```r
-## Excel Aglomerados
-aglo_eph <- read.xlsx(\"../Fuentes/Aglomerados EPH.xlsx\")
-```"
