@@ -1,5 +1,5 @@
 ---
-title: "R base"
+title: "Procesando datos con Tidyverse"
 subtitle: "Práctica independiente"
 output:
   html_document
@@ -11,45 +11,60 @@ output:
 
 <br> 
 
-a. Crear un OBJETO llamado _COSA_ cuyo contenido sea el resultado de la multiplicación: 5*6
+a. Importar la base de datos de casos COVID
 ```{r}
 
 ```
 
 <br> 
 
-b. Crear un __VECTOR__ llamado _VEC0_ que contenga los números 10, 20, 30.
+### _[Ejecutar las siguientes consignas con el paquete `tidyverse`]_
+
+b. Crear un objeto y seleccionar entre 3 y 6 columnas de interés combinando la función `select()` con:
+
+- El nombre de las variables
+
+- La posición de las variables
+
+- Un patrón común en el nombre de las variables (`starts_with()` - `ends_with()` - `contains()`)
+
+```{r}
+
+```
+
+<br>
+
+c. Crear un objeto nuevo que contenga unicamente a la población residente de **3 provincias** a elección y sólo una categoría de la variable **sexo** [a elección].
 ```{r}
 
 ```
 
 <br> 
 
-c. Modificar el segundo elemento de _VEC0_, asignandole el valor *40*
+d. Crear una tabla en base a la población anterior que contenga, para cada provincia:
+
+- Edad media de la población
+
+- Edad mínima de la población
+
+- Edad máxima de la población
 ```{r}
 
 ```
 
-<br> 
-
-d. Crear 3 vectores (llamarlos _VEC1_, _VEC2_, _VEC3_). con la misma cantidad de elementos que _VEC0_, pero con variables de tipo _character_ (texto). 
+e. Crear una variable recodificando la variable **edad** en 5 rangos etáreos.
 ```{r}
 
 ```
 
-<br> 
 
-e. Crear un dataframe (llamarla: _BASE_DATOS_) que contenga los __vectores__ creados previamente
+f. Dado el siguiente código, agregar una columna con el valor del peso relativo de cada provincia respecto al total:
+
 ```{r}
+library(tidyverse)
 
+base_3_provincias <- base_covid %>% 
+  filter(residencia_provincia_nombre %in% c("CABA", "Buenos Aires", "Neuquén")) %>% 
+  group_by(residencia_provincia_nombre) %>% 
+  summarise(cantidad_personas = n())
 ```
-
-<br> 
-
-f. Crear un objeto llamado *OTRA_COSA* que guarde el valor contenido en la segunda fila y tercera columna del dataframe _BASE_DATOS_
-```{r}
-
-```
-
-<br> 
-
