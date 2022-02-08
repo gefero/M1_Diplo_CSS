@@ -2,7 +2,6 @@
 knitr::opts_chunk$set(echo = TRUE,include = TRUE,message = FALSE)
 
 
-
 ## ----message=FALSE,warning=FALSE----------------------------------------------------------
  #install.packages("rtweet")
 library(rtweet) # descargar info de twitter
@@ -43,6 +42,10 @@ str_length(string1)
 string2 <- "Sputnik V"
 str_length(string2)
 
+####
+#Ejercicio: Crear en la base de datos una nueva columna que identifique en cada caso el largo del tweet. Luego, mostrar el o los casos de máxima longitud de esta variable.
+vacuna.tweets <- vacuna.tweets %>% 
+  mutate(largo_tweet = str_length(text)) 
 
 ## ----1er Ejercicio-----------------------------------------------------------
 
